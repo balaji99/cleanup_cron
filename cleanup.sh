@@ -2,6 +2,18 @@
 
 # Source the configuration file
 source "./config.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+# Now you can reference files relatively
+if [ -x "config.sh" ]; then
+    echo "Found config file"
+    source "./config.sh"
+else
+    echo "Config file not found in $SCRIPT_DIR"
+    exit 1
+fi
+
 
 # Function to log messages
 log_message() {    
