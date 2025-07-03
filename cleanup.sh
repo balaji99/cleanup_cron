@@ -26,14 +26,14 @@ cleanup_directory() {
     local today_date=$(date "$DATE_FORMAT")
         
     log_message "Today's date: $today_date"
-    log_message "Storage status before cleanup: $(df -hT $PARENT_DIR)"
-    log_message "Starting cleanup in: $PARENT_DIR"
+    log_message "Storage status before cleanup: $(df -hT $CLEANUP_ROOT_DIR )"
+    log_message "Starting cleanup in: $CLEANUP_ROOT_DIR "
     log_message "Preserving only the item named: \"$today_date\""
     
     # Change to the parent directory
-    cd "$PARENT_DIR"
+    cd "$CLEANUP_ROOT_DIR "
     if [ $? != 0 ]; then
-        log_message "Failed to change to parent directory: $PARENT_DIR"
+        log_message "Failed to change to parent directory: $CLEANUP_ROOT_DIR "
         exit 1
     fi
     
@@ -48,7 +48,7 @@ cleanup_directory() {
     done
     
     log_message "Cleanup completed"
-    log_message "Storage status after cleanup: $(df -hT $PARENT_DIR)"
+    log_message "Storage status after cleanup: $(df -hT $CLEANUP_ROOT_DIR )"
 }
 
 main() {
