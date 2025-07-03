@@ -1,7 +1,10 @@
 Here's how to create a cron job that runs at 12 AM daily:
 
-## Store the cleanup script on your server, and make sure it has execute permissions
-`chmod +x /path_to_your_script/cleanup.sh`
+## Store the cleanup and config scripts on your server, and make sure they have execute permissions
+`
+chmod +x /path_to_your_script/cleanup.sh /path_to_your_script/config.sh
+`
+
 
 ## Configure the cron job
 
