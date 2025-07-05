@@ -31,19 +31,23 @@ cleanup_directory() {
     log_message "Preserving only the item named: \"$today_date\""
     
     # Change to the parent directory
-    cd "$CLEANUP_ROOT_DIR "
+    cd "$CLEANUP_ROOT_DIR"
     if [ $? != 0 ]; then
         log_message "Failed to change to parent directory: $CLEANUP_ROOT_DIR "
         exit 1
     fi
     
-    # Delete everything that doesn't match today's date
+    # Delete only folders with valid YYYY-MM-DD date format that are not today's date
     for item in *; do
-        if [[ "$item" == "$today_date" ]]; then
-            log_message "Preserving: $item"
+        if [[ -d "$item" && "$item" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] && date -d "$item" >/dev/null 2>&1; then
+            if [[ "$item" == "$today_date" ]]; then
+                log_message "Preserving today's folder: $item"
+            else
+                log_message "Deleting old date folder: $item"
+                rm -rf "$item"
+            fi
         else
-            log_message "Deleting: $item"
-            rm -rf "$item"
+            log_message "Preserving non-date item: $item"
         fi
     done
     
