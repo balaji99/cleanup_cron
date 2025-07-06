@@ -37,17 +37,15 @@ cleanup_directory() {
         exit 1
     fi
     
-    # Delete only folders with valid YYYY-MM-DD date format that are not today's date
+    # Delete only items with dates in DATE_FORMAT (excluding today's date)
     for item in *; do
-        if [[ -d "$item" && "$item" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] && date -d "$item" >/dev/null 2>&1; then
-            if [[ "$item" == "$today_date" ]]; then
-                log_message "Preserving today's folder: $item"
-            else
-                log_message "Deleting old date folder: $item"
-                rm -rf "$item"
-            fi
+        if [[ "$item" == "$today_date" ]]; then
+            log_message "Preserving today's item: $item"
+        elif [[ "$(date -d "$item" "$DATE_FORMAT" 2>/dev/null)" == "$item" ]]; then
+            log_message "Deleting old date item: $item"
+            rm -rf "$item"
         else
-            log_message "Preserving non-date item: $item"
+            log_message "Preserving item: $item"
         fi
     done
     
